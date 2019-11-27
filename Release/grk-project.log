@@ -1,0 +1,36 @@
+﻿  Camera.cpp
+  CameraControl.cpp
+i:\grafika\projekt\cameracontrol.cpp(10): warning C4305: "=": obcięcie z "double" do "float"
+i:\grafika\projekt\cameracontrol.cpp(40): warning C4244: "=": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+i:\grafika\projekt\cameracontrol.cpp(41): warning C4244: "=": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+  InputControl.cpp
+  main.cpp
+i:\grafika\projekt\main.cpp(32): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+i:\grafika\projekt\main.cpp(55): warning C4305: "argument": obcięcie z "double" do "T"
+          with
+          [
+              T=float
+          ]
+  RenderData.cpp
+  RenderOBJ.cpp
+i:\grafika\projekt\obj_loader.h(652): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+i:\grafika\projekt\obj_loader.h(689): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+i:\grafika\projekt\obj_loader.h(695): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+i:\grafika\projekt\obj_loader.h(949): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+  RenderObject.cpp
+  Render_Utils.cpp
+  Scene.cpp
+  SceneGraphNode.cpp
+  Shader_Loader.cpp
+  Trwa generowanie kodu
+  All 1428 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Zakończono generowanie kodu
+  grk-project.vcxproj -> I:\grafika\projekt\Release\grk-project.exe
