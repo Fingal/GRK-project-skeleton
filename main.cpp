@@ -29,7 +29,8 @@ int id = 0;
 PhysxScene physxScene(9.8);
 PxRigidDynamic* dynamicBall = nullptr;
 PxMaterial *ballMaterial = nullptr;
-double physxStepTime = 1.f / 60.f;
+// fixed timestep for stable and deterministic simulation
+const double physxStepTime = 1.f / 60.f;
 double physxTimeToProcess = 0;
 
 
@@ -40,7 +41,9 @@ void renderScene()
     double dtime = time - prevTime;
     prevTime = time;
 
-    physxTimeToProcess += dtime;
+    if (dtime < 1.f) { // process physics only if more than 1 fps
+        physxTimeToProcess += dtime;
+    }
     while (physxTimeToProcess > 0) {
         physxScene.step(physxStepTime);
         physxTimeToProcess -= physxStepTime;
