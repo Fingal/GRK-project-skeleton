@@ -27,6 +27,7 @@
     <ClCompile Include="SOIL\image_helper.c" />
     <ClCompile Include="SOIL\SOIL.c" />
     <ClCompile Include="SOIL\stb_image_aug.c" />
+    <ClCompile Include="PhysxScene.cpp" />
     <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="InputControl.h" />
     <ClInclude Include="objload.h" />
     <ClInclude Include="OBJ_loader.h" />
+    <ClInclude Include="PhysxScene.h" />
     <ClInclude Include="RenderData.h" />
     <ClInclude Include="RenderOBJ.h" />
     <ClInclude Include="RenderObject.h" />

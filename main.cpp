@@ -11,6 +11,7 @@
 #include "Render_Utils.h"
 
 #include "Scene.h"
+#include "PhysxScene.h"
 #include "CameraControl.h"
 #include "Camera.h"
 #include "RenderOBJ.h"
@@ -24,9 +25,26 @@ Camera camera=Camera();
 CameraControl controller= CameraControl(&camera);
 BallControl* bController;
 int id = 0;
+
+PhysxScene physxScene(9.8);
+PxRigidDynamic* dynamicBall = nullptr;
+PxMaterial *ballMaterial = nullptr;
+double physxStepTime = 1.f / 60.f;
+double physxTimeToProcess = 0;
+
+
 void renderScene()
 {
-	auto time = glutGet(GLUT_ELAPSED_TIME) / 1000.;
+    static double prevTime = 0;
+	double time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    double dtime = time - prevTime;
+    prevTime = time;
+
+    physxTimeToProcess += dtime;
+    while (physxTimeToProcess > 0) {
+        physxScene.step(physxStepTime);
+        physxTimeToProcess -= physxStepTime;
+    }
 
     int width = glutGet(GLUT_WINDOW_WIDTH);
     int height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -39,6 +57,26 @@ void renderScene()
 }
 
 glm::mat4 move_ball(float time) {
+    auto actorFlags = PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC;
+    PxU32 nbActors = physxScene.scene->getNbActors(actorFlags);
+    if (nbActors)
+    {
+        std::vector<PxRigidActor*> actors(nbActors);
+        physxScene.scene->getActors(actorFlags, (PxActor**)&actors[0], nbActors);
+
+        // get world matrix of actor
+        PxMat44 transform = actors.back()->getGlobalPose();
+        auto &c0 = transform.column0;
+        auto &c1 = transform.column1;
+        auto &c2 = transform.column2;
+        auto &c3 = transform.column3;
+        return glm::mat4(
+            c0.x, c0.y, c0.z, c0.w,
+            c1.x, c1.y, c1.z, c1.w,
+            c2.x, c2.y, c2.z, c2.w,
+            c3.x, c3.y, c3.z, c3.w);
+    }
+
 	return glm::translate(bController->get_pos());
 }
 
@@ -72,6 +110,24 @@ void init()
 
 	ball->setMatrixFunction(move_ball);
 	scene.registerObject(ball);
+
+    {
+        PxTransform t(0, 10, 0);
+
+        ballMaterial = physxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
+
+        PxShape* shape = physxScene.physics->createShape(
+            PxSphereGeometry(1), *ballMaterial);
+
+        dynamicBall = physxScene.physics->createRigidDynamic(t);
+        dynamicBall->attachShape(*shape);
+        dynamicBall->setLinearVelocity(PxVec3(0,10,0));
+        PxRigidBodyExt::updateMassAndInertia(*dynamicBall, 10.0f);
+        physxScene.scene->addActor(*dynamicBall);
+
+        shape->release();
+    }
+
 
 	id=scene.registerObject(&terrain);
 

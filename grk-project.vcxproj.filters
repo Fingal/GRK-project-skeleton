@@ -69,6 +69,9 @@
     <ClCompile Include="SOIL\SOIL.c">
       <Filter>SOIL</Filter>
     </ClCompile>
+    <ClCompile Include="PhysxScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderObject.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="SOIL\SOIL.h">
       <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysxScene.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
