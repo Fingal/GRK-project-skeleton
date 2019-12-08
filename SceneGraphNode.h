@@ -7,16 +7,16 @@ class SceneGraphNode
 public:
 
 
-	SceneGraphNode();
-	SceneGraphNode(SceneGraphNode* parent);
-	~SceneGraphNode();
+    SceneGraphNode();
+    SceneGraphNode(SceneGraphNode* parent);
+    ~SceneGraphNode();
 
-	glm::mat4 getMatrix();
-	glm::mat4 matrix;
+    glm::mat4 getMatrix();
+    glm::mat4 matrix;
 private:
-	SceneGraphNode* parent;
-	bool is_root;
-	float time;
-	
+    SceneGraphNode* parent;
+    bool is_root;
+    float time;
+
 };
 

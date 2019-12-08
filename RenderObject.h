@@ -6,19 +6,22 @@
 #include "RenderData.h"
 
 
-/*abstracy render object*/
+/*abstract render object*/
 class RenderObject
 {
 public:
-	RenderObject();
-	//parent = object required for scene graph
-	RenderObject(RenderObject* parent);
-	~RenderObject();
-	glm::mat4 getModelMatrix();
-	virtual glm::mat4 getTransformationMarix();
-	virtual glm::mat4 calculateTransformationMarix(float time);
-	virtual void render(RenderData& data);
+    RenderObject();
+    //parent = object required for scene graph
+    RenderObject(RenderObject* parent);
+    ~RenderObject();
+    glm::mat4 getModelMatrix();
+	//abstract function that is supposed to return calculated matrix last time when calculateTransformationMarix was called
+    virtual glm::mat4 getTransformationMarix();
+	//abstract function that is supposed to calculate transformation matrix at given time.
+    virtual glm::mat4 calculateTransformationMarix(float time);
+	//abstract function that is supposed to do object render based on given data and calculated earlier matrix 
+    virtual void render(RenderData& data);
 protected:
-	SceneGraphNode*	graphNode;
+    SceneGraphNode*	graphNode;
 };
 

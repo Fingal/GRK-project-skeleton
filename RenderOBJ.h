@@ -2,36 +2,37 @@
 #include "RenderObject.h"
 #include "Render_Utils.h"
 
-
+//exemplary clas that should be used in your project
+//this is simple class that loads obj file and displays normals
 typedef glm::mat4(*matrixFunction)(float time);
 
 class RenderOBJ :
-	public RenderObject
+    public RenderObject
 {
 public:
-	RenderOBJ(const char* path);
-	RenderOBJ(const char* path,RenderObject* parent);
+    RenderOBJ(const char* path);
+    RenderOBJ(const char* path,RenderObject* parent);
 
-	void setMatrixFunction(glm::mat4(*matrixFunction)(float time));
-	
-	glm::mat4 calculateTransformationMarix(float time);
+    void setMatrixFunction(glm::mat4(*matrixFunction)(float time));
+
+    glm::mat4 calculateTransformationMarix(float time);
 
 
-	void render(RenderData& data);
+    void render(RenderData& data);
 
-	~RenderOBJ();
+    ~RenderOBJ();
 
 
 private:
-	void init(const char * path);
+    void init(const char * path);
 
-	obj::Model model;
-	int size;
+    obj::Model model;
+    int size;
 
-	GLuint program;
-	GLuint vertexArray;
-	GLuint vertexBuffer;
-	GLuint vertexIndexBuffer;
-	matrixFunction matrixFunction;
+    GLuint program;
+    GLuint vertexArray;
+    GLuint vertexBuffer;
+    GLuint vertexIndexBuffer;
+    matrixFunction matrixFunction;
 };
 

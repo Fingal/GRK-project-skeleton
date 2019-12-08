@@ -2,28 +2,28 @@
 #include "RenderObject.h"
 /*Terrain object responsible from showing terrain and giving height*/
 class Terrain :
-	public RenderObject
+    public RenderObject
 {
 public:
-	Terrain();
-	~Terrain();
-	glm::mat4 calculateTransformationMarix(float time);
+    Terrain();
+    ~Terrain();
+    glm::mat4 calculateTransformationMarix(float time);
 
-	//returns height at current possition a,b
-	float getHeight(float a, float b);
+    //returns height at current possition a,b
+    float getHeight(float a, float b);
 
-	void render(RenderData& data);
+    void render(RenderData& data);
 
-	void init();
+    void init();
 
 private:
 
 
-	int size;
+    int size;
 
-	GLuint program;
-	GLuint vertexArray;
-	GLuint vertexBuffer;
-	GLuint vertexIndexBuffer;
+    GLuint program;
+    GLuint vertexArray;
+    GLuint vertexBuffer;
+    GLuint vertexIndexBuffer;
 };
 
