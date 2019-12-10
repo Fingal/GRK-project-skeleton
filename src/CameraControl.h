@@ -10,10 +10,13 @@ public:
     void keyboardInput(unsigned char key, int x,int y);
     void mouseInput(int button, int state, int x, int y);
     virtual ~CameraControl();
+
 private:
-    int lastX;
-    int lastY;
-    float moveSpeed;
+    int lastX, lastY;
+    float moveSpeed, rotationSpeed;
     Camera* camera;
+
+    void translate(glm::vec3 const &offset);
+    void rotate(glm::quat const &rotation);
 };
 

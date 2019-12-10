@@ -71,13 +71,16 @@ void Scene::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
     RenderData data;
     data.lightSource = light;
-    data.cameraProjectionMatrix = camera->getCameraProjectionMatix();
+    data.viewProjMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
+
     for (auto object = renderObjects.begin(); object != renderObjects.end(); object++)
     {
         object->second->render(data);
     }
+
     glutSwapBuffers();
 }
 

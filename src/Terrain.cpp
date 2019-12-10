@@ -79,7 +79,7 @@ void Terrain::render(RenderData& data)
 
     glUseProgram(program);
     glBindVertexArray(vertexArray);
-    glm::mat4 mvp = data.cameraProjectionMatrix*getModelMatrix();
+    glm::mat4 mvp = data.viewProjMatrix * getModelMatrix();
     glm::mat4 model = getModelMatrix();
 
     glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&mvp);

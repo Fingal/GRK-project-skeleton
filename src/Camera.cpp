@@ -1,57 +1,61 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         THIS IS A SKELETON CODE CLASS
+//
+//         DO NOT MODIFY IT !!!!!!!!!!!!!!!
+//
+//==============================================================================================
+//==============================================================================================
 #include "Camera.h"
-
-
+#include "freeglut.h"
 
 Camera::Camera()
 {
-    cameraPos = glm::vec3(0, 10, 20);
-    rotation = glm::quat(1, 0, 0, 0);
-    rotationChange = glm::quat(1, 0, 0, 0);
+    pos_ = glm::vec3(0, 10, 20);
+    dir_ = glm::vec3(0, 0, -1);
+    side_ = glm::vec3(1, 0, 0);
+    fovy_ = glm::radians(60.f);
+    znear_ = 0.1f;
+    zfar_ = 1000.f;
 }
-
 
 Camera::~Camera()
 {
 }
 
-void Camera::move(float dir, float side)
+void Camera::setViewProperties(glm::vec3 const & position, glm::vec3 const & direction, glm::vec3 const & side)
 {
-    cameraPos = cameraPos + dir * cameraDir + side * cameraSide;
+    pos_ = position;
+    dir_ = glm::normalize(direction);
+    side_ = glm::normalize(side);
 }
 
-glm::mat4 Camera::getCameraProjectionMatix()
+void Camera::setViewProperties(glm::vec3 const & position, glm::quat const & rotation)
 {
-    return createPerspectiveMatrix(glm::radians(60.f), 0.1f, 1000.f)
-           * createCameraMatrix();
+    pos_ = position;
+    auto irot = glm::inverse(rotation);
+    dir_ = glm::normalize(irot * glm::vec3(0, 0, -1));
+    side_ = glm::normalize(irot * glm::vec3(1, 0, 0));
 }
 
-glm::mat4 Camera::createPerspectiveMatrix(float fovY, float zNear, float zFar)
+void Camera::setProjectionProperties(float fovy, float znear, float zfar)
 {
-    return glm::perspectiveFovRH(fovY, (float)width, (float)height, zNear, zFar);
+    fovy_ = fovy;
+    znear_ = znear;
+    zfar_ = zfar;
 }
 
-void Camera::changeRotation(glm::vec3 rotationChangeXYZ)
+glm::mat4 Camera::getViewMatrix() const
 {
-    rotationChange = rotationChange+glm::quat(-rotationChangeXYZ*0.003);
+    return glm::lookAt(pos_, pos_ + dir_, getUp());
 }
 
-void Camera::resize(int w, int h)
+glm::mat4 Camera::getProjectionMatrix() const
 {
-    width = w;
-    height = h;
-}
+    int width = glutGet(GLUT_WINDOW_WIDTH);
+    int height = glutGet(GLUT_WINDOW_HEIGHT);
 
-glm::mat4 Camera::createCameraMatrix()
-{
-    rotation = rotationChange * rotation;
-    rotation = glm::normalize(rotation);
-    cameraDir = glm::inverse(rotation) * glm::vec3(0, 0, -1);
-    cameraSide = glm::inverse(rotation) * glm::vec3(1, 0, 0);
-
-    //return createViewMatrixQuat(cameraPos, rotation);
-    glm::mat4 cameraTranslation;
-    cameraTranslation[3] = glm::vec4(-cameraPos, 1.0f);
-
-    rotationChange = glm::quat(1, 0, 0, 0);
-    return glm::mat4_cast(rotation) * cameraTranslation;
+    return glm::perspectiveFov(fovy_, (float)width,
+        (float)height, znear_, zfar_);
 }

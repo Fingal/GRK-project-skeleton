@@ -6,7 +6,7 @@
 class RenderData
 {
 public:
-    glm::mat4 cameraProjectionMatrix;
+    glm::mat4 viewProjMatrix;
     glm::vec3 lightSource;
     RenderData();
     virtual ~RenderData();

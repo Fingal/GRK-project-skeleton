@@ -51,14 +51,11 @@ void renderScene()
         physxTimeToProcess -= physxStepTime;
     }
 
-    int width = glutGet(GLUT_WINDOW_WIDTH);
-    int height = glutGet(GLUT_WINDOW_HEIGHT);
     auto x=[time]()
     {
         return time * time;
     }
     ();
-    camera.resize(width, height);
     scene.calculateMatrices(time);
     scene.render();
 }
@@ -166,7 +163,6 @@ void keyboard(unsigned char key, int x, int y)
 {
     scene.keyboard(key, x, y);
 }
-
 
 void idle()
 {
