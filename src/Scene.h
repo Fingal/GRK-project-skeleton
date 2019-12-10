@@ -16,7 +16,7 @@ class Scene
 {
 public:
     Scene();
-    ~Scene();
+    virtual ~Scene();
     //adds object to render loop, returns its id
     // object - pointer to object
     int registerObject(RenderObject* object);

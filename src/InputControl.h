@@ -7,6 +7,6 @@ public:
     InputControl();
     virtual void keyboardInput(unsigned char key, int x, int y) {};
     virtual void mouseInput(int button, int state, int x, int y) {};
-    ~InputControl();
+    virtual ~InputControl();
 };
 

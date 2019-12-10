@@ -9,7 +9,7 @@ public:
     CameraControl(Camera* camera);
     void keyboardInput(unsigned char key, int x,int y);
     void mouseInput(int button, int state, int x, int y);
-    ~CameraControl();
+    virtual ~CameraControl();
 private:
     int lastX;
     int lastY;

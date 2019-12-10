@@ -20,7 +20,7 @@ public:
 
     void render(RenderData& data);
 
-    ~RenderOBJ();
+    virtual ~RenderOBJ();
 
 
 private:

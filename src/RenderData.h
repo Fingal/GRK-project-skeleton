@@ -9,6 +9,6 @@ public:
     glm::mat4 cameraProjectionMatrix;
     glm::vec3 lightSource;
     RenderData();
-    ~RenderData();
+    virtual ~RenderData();
 };
 

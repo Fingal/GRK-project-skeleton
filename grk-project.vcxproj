@@ -36,7 +36,6 @@
     <ClInclude Include="src\CameraControl.h" />
     <ClInclude Include="src\InputControl.h" />
     <ClInclude Include="src\objload.h" />
-    <ClInclude Include="src\OBJ_loader.h" />
     <ClInclude Include="src\PhysxScene.h" />
     <ClInclude Include="src\RenderData.h" />
     <ClInclude Include="src\RenderOBJ.h" />

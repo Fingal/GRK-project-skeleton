@@ -19,6 +19,9 @@
     <Filter Include="Shader Files">
       <UniqueIdentifier>{e0b2cb15-31c3-41b9-bca5-bfd4da148594}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\obj-loader">
+      <UniqueIdentifier>{5ec704ae-aac2-4930-8b2b-23bae3809b82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BallControl.cpp">
@@ -89,12 +92,6 @@
     <ClInclude Include="src\InputControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OBJ_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objload.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\PhysxScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\SOIL\stbi_DDS_aug_c.h">
       <Filter>Source Files\SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objload.h">
+      <Filter>Header Files\obj-loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

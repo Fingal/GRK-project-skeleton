@@ -13,7 +13,7 @@ public:
     RenderObject();
     //parent = object required for scene graph
     RenderObject(RenderObject* parent);
-    ~RenderObject();
+    virtual ~RenderObject();
     glm::mat4 getModelMatrix();
 	//abstract function that is supposed to return calculated matrix last time when calculateTransformationMarix was called
     virtual glm::mat4 getTransformationMarix();

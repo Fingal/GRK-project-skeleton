@@ -16,7 +16,7 @@ public:
     virtual void mouseInput(int button, int state, int x, int y) {};
 
     glm::vec3 get_pos();
-    ~BallControl();
+    virtual ~BallControl();
 private:
     Terrain* terrain;
     float x;

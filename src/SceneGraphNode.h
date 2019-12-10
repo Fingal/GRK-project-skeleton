@@ -9,7 +9,7 @@ public:
 
     SceneGraphNode();
     SceneGraphNode(SceneGraphNode* parent);
-    ~SceneGraphNode();
+    virtual ~SceneGraphNode();
 
     glm::mat4 getMatrix();
     glm::mat4 matrix;

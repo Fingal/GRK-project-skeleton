@@ -1,11 +1,12 @@
-#include "glew.h"
 #include <ctime>
-#include "freeglut.h"
-#include "glm.hpp"
-#include "ext.hpp"
 #include <iostream>
 #include <cmath>
 #include <vector>
+
+#include "glew.h"
+#include "freeglut.h"
+#include "glm.hpp"
+#include "ext.hpp"
 #include "SOIL/SOIL.h"
 #include "Shader_Loader.h"
 #include "Render_Utils.h"
@@ -178,7 +179,7 @@ int main(int argc, char ** argv)
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(200, 200);
     glutInitWindowSize(600, 600);
-    glutCreateWindow("OpenGL Pierwszy Program");
+    glutCreateWindow("OpenGL Project");
 
     glewInit();
 

@@ -6,7 +6,7 @@ class Terrain :
 {
 public:
     Terrain();
-    ~Terrain();
+    virtual ~Terrain();
     glm::mat4 calculateTransformationMarix(float time);
 
     //returns height at current possition a,b

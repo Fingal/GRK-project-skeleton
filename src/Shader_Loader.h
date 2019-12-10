@@ -19,7 +19,7 @@ private:
 public:
 
     Shader_Loader(void);
-    ~Shader_Loader(void);
+    virtual ~Shader_Loader(void);
     GLuint CreateProgram(char* VertexShaderFilename,
                          char* FragmentShaderFilename);
 

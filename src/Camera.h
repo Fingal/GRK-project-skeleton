@@ -8,7 +8,7 @@ class Camera
 {
 public:
     Camera();
-    ~Camera();
+    virtual ~Camera();
 
     void changeRotation(glm::vec3 rotationChangeXYZ);
 

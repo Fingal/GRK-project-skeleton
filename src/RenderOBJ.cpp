@@ -1,5 +1,4 @@
 #include "RenderOBJ.h"
-#include "OBJ_loader.h"
 #include "Shader_Loader.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
