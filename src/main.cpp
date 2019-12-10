@@ -83,7 +83,7 @@ glm::mat4 move_ball(float time)
                    c2.x, c2.y, c2.z, c2.w,
                    c3.x, c3.y, c3.z, c3.w);
     }
-
+    return glm::mat4();
 }
 
 void init()

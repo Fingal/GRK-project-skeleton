@@ -11,47 +11,57 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BallControl.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraControl.cpp" />
-    <ClCompile Include="InputControl.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="RenderData.cpp" />
-    <ClCompile Include="RenderOBJ.cpp" />
-    <ClCompile Include="RenderObject.cpp" />
-    <ClCompile Include="Render_Utils.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneGraphNode.cpp" />
-    <ClCompile Include="Shader_Loader.cpp" />
-    <ClCompile Include="SOIL\image_DXT.c" />
-    <ClCompile Include="SOIL\image_helper.c" />
-    <ClCompile Include="SOIL\SOIL.c" />
-    <ClCompile Include="SOIL\stb_image_aug.c" />
-    <ClCompile Include="PhysxScene.cpp" />
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="src\BallControl.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CameraControl.cpp" />
+    <ClCompile Include="src\InputControl.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\PhysxScene.cpp" />
+    <ClCompile Include="src\RenderData.cpp" />
+    <ClCompile Include="src\RenderOBJ.cpp" />
+    <ClCompile Include="src\RenderObject.cpp" />
+    <ClCompile Include="src\Render_Utils.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SceneGraphNode.cpp" />
+    <ClCompile Include="src\Shader_Loader.cpp" />
+    <ClCompile Include="src\SOIL\image_DXT.c" />
+    <ClCompile Include="src\SOIL\image_helper.c" />
+    <ClCompile Include="src\SOIL\SOIL.c" />
+    <ClCompile Include="src\SOIL\stb_image_aug.c" />
+    <ClCompile Include="src\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BallControl.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraControl.h" />
-    <ClInclude Include="InputControl.h" />
-    <ClInclude Include="objload.h" />
-    <ClInclude Include="OBJ_loader.h" />
-    <ClInclude Include="PhysxScene.h" />
-    <ClInclude Include="RenderData.h" />
-    <ClInclude Include="RenderOBJ.h" />
-    <ClInclude Include="RenderObject.h" />
-    <ClInclude Include="Render_Utils.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneGraphNode.h" />
-    <ClInclude Include="Shader_Loader.h" />
-    <ClInclude Include="SOIL\image_DXT.h" />
-    <ClInclude Include="SOIL\image_helper.h" />
-    <ClInclude Include="SOIL\SOIL.h" />
-    <ClInclude Include="SOIL\stbi_DDS_aug.h" />
-    <ClInclude Include="SOIL\stbi_DDS_aug_c.h" />
-    <ClInclude Include="SOIL\stb_image_aug.h" />
-    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="src\BallControl.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CameraControl.h" />
+    <ClInclude Include="src\InputControl.h" />
+    <ClInclude Include="src\objload.h" />
+    <ClInclude Include="src\OBJ_loader.h" />
+    <ClInclude Include="src\PhysxScene.h" />
+    <ClInclude Include="src\RenderData.h" />
+    <ClInclude Include="src\RenderOBJ.h" />
+    <ClInclude Include="src\RenderObject.h" />
+    <ClInclude Include="src\Render_Utils.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\SceneGraphNode.h" />
+    <ClInclude Include="src\Shader_Loader.h" />
+    <ClInclude Include="src\SOIL\image_DXT.h" />
+    <ClInclude Include="src\SOIL\image_helper.h" />
+    <ClInclude Include="src\SOIL\SOIL.h" />
+    <ClInclude Include="src\SOIL\stbi_DDS_aug.h" />
+    <ClInclude Include="src\SOIL\stbi_DDS_aug_c.h" />
+    <ClInclude Include="src\SOIL\stb_image_aug.h" />
+    <ClInclude Include="src\Terrain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shader_1_1.frag" />
+    <None Include="shaders\shader_1_1.vert" />
+    <None Include="shaders\shader_1_2.frag" />
+    <None Include="shaders\shader_1_2.vert" />
+    <None Include="shaders\shader_terrain.frag" />
+    <None Include="shaders\shader_terrain.vert" />
+    <None Include="shaders\shader_test.frag" />
+    <None Include="shaders\shader_test.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1B448102-E76C-4347-BDC7-40D02A567DB6}</ProjectGuid>
