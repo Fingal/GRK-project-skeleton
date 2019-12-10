@@ -1,3 +1,12 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         THIS IS A SKELETON CODE CLASS
+//
+//         DO NOT MODIFY IT !!!!!!!!!!!!!!!
+//
+//==============================================================================================
+//==============================================================================================
 #pragma once
 #include <map>
 #include "glew.h"
@@ -9,9 +18,9 @@
 #include "RenderObject.h"
 #include "freeglut.h"
 #include "RenderData.h"
-
-/*Class responsible for rendering scene seting camera and observing input, shouldn't be modified*/
 using namespace std;
+
+/*Class responsible for rendering scene seting camera and observing input*/
 class Scene
 {
 public:

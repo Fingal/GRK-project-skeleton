@@ -115,7 +115,7 @@ void init()
         return glm::rotate(time*2, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(1, 0, 0))*glm::scale(glm::vec3(0.1));
     });
     scene.registerObject(ball);
-    //end od planetary system
+    //end of planetary system
 
     //physix example
     ball = new RenderOBJ("models/ball.obj");
@@ -142,7 +142,7 @@ void init()
 
 
     id=scene.registerObject(&terrain);
-    //registering camera and controlle for it
+    //registering camera and controller for it
     scene.setCamera(&camera);
     scene.registerInput(&controller);
     //scene.registerInput(bController);
