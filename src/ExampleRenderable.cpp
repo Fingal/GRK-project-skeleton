@@ -6,7 +6,7 @@
 //==============================================================================================
 //==============================================================================================
 #include "ExampleRenderable.h"
-#include "Shader_Loader.h"
+#include "ShaderLoader.h"
 #include "objload.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -21,7 +21,7 @@ void ExampleRenderable::init(const char * path)
     obj::Model model = obj::loadModelFromFile(path);
     faceCount_ = model.faces["default"].size();
 
-    Core::Shader_Loader shaderLoader;
+    Core::ShaderLoader shaderLoader;
     program_ = shaderLoader.CreateProgram(
         "shaders/shader_test.vert",
         "shaders/shader_test.frag");
@@ -78,17 +78,22 @@ void ExampleRenderable::render(RenderData& data)
 {
     glUseProgram(program_);
     glBindVertexArray(vertexArray_);
-    glm::mat4 mvp = data.viewProjMatrix * getModelMatrix();
-    glm::mat4 model = getModelMatrix();
-    glUniformMatrix4fv(glGetUniformLocation(program_, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&mvp);
-    glUniformMatrix4fv(glGetUniformLocation(program_, "modelMatrix_"), 1, GL_FALSE, (float*)&model);
-    glUniform3f(glGetUniformLocation(program_, "lightSource"), data.lightSource.x, data.lightSource.y, data.lightSource.z);
-    glDrawElements(
-        GL_TRIANGLES,      // mode
-        faceCount_,    // count
-        GL_UNSIGNED_SHORT,   // type
-        (void*)0           // element array buffer offset
-    );
+
+    glm::mat4 modelViewProjMatrix = data.viewProjMatrix * getModelMatrix();
+    glm::mat4 modelMatrix = getModelMatrix();
+
+    glUniformMatrix4fv(glGetUniformLocation(program_,
+        "modelViewProjectionMatrix"), 1, GL_FALSE,
+        (float*)&modelViewProjMatrix);
+
+    glUniformMatrix4fv(glGetUniformLocation(program_,
+        "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+    glUniform3f(glGetUniformLocation(program_, "lightSource"),
+        data.lightSource.x, data.lightSource.y, data.lightSource.z);
+
+    glDrawElements(GL_TRIANGLES, faceCount_, GL_UNSIGNED_SHORT, (void*)0);
+
     glBindVertexArray(0);
     glUseProgram(0);
 }

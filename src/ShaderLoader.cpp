@@ -1,14 +1,14 @@
-#include "Shader_Loader.h"
-#include<iostream>
-#include<fstream>
-#include<vector>
+#include "ShaderLoader.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 using namespace Core;
 
-Shader_Loader::Shader_Loader(void) {}
-Shader_Loader::~Shader_Loader(void) {}
+ShaderLoader::ShaderLoader(void) {}
+ShaderLoader::~ShaderLoader(void) {}
 
-std::string Shader_Loader::ReadShader(char *filename)
+std::string ShaderLoader::ReadShader(char *filename)
 {
 
     std::string shaderCode;
@@ -28,7 +28,7 @@ std::string Shader_Loader::ReadShader(char *filename)
     return shaderCode;
 }
 
-GLuint Shader_Loader::CreateShader(GLenum shaderType, std::string
+GLuint ShaderLoader::CreateShader(GLenum shaderType, std::string
                                    source, char* shaderName)
 {
 
@@ -57,7 +57,7 @@ GLuint Shader_Loader::CreateShader(GLenum shaderType, std::string
     return shader;
 }
 
-GLuint Shader_Loader::CreateProgram(char* vertexShaderFilename,
+GLuint ShaderLoader::CreateProgram(char* vertexShaderFilename,
                                     char* fragmentShaderFilename)
 {
 
@@ -96,7 +96,7 @@ GLuint Shader_Loader::CreateProgram(char* vertexShaderFilename,
     return program;
 }
 
-void Shader_Loader::DeleteProgram( GLuint program )
+void ShaderLoader::DeleteProgram( GLuint program )
 {
     glDeleteProgram(program);
 }

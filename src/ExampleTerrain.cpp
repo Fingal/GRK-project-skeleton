@@ -1,23 +1,23 @@
-#include "Terrain.h"
-#include "Shader_Loader.h"
+#include "ExampleTerrain.h"
+#include "ShaderLoader.h"
 #include "objload.h"
 
 #define BUFFER_OFFSET(i) ((char*)nullptr + (i))
 
-Terrain::Terrain() : Renderable()
+ExampleTerrain::ExampleTerrain()
 {
 }
 
-Terrain::~Terrain()
+ExampleTerrain::~ExampleTerrain()
 {
 }
 
-void Terrain::init()
+void ExampleTerrain::init()
 {
     obj::Model model = obj::loadModelFromFile("models/terrain.obj");
     faceCount_ = model.faces["default"].size();
 
-    Core::Shader_Loader shaderLoader;
+    Core::ShaderLoader shaderLoader;
     program_ = shaderLoader.CreateProgram(
         "shaders/shader_terrain.vert",
         "shaders/shader_terrain.frag");
@@ -58,37 +58,48 @@ void Terrain::init()
     glBindVertexArray(0);
 }
 
-glm::mat4 Terrain::getModelMatrix() const
+glm::mat4 ExampleTerrain::getModelMatrix() const
 {
     return glm::mat4();
 }
 
-void Terrain::update(float time)
+void ExampleTerrain::update(float time)
 {
 }
 
-void Terrain::render(RenderData& data)
+void ExampleTerrain::render(RenderData& data)
 {
-
     glUseProgram(program_);
     glBindVertexArray(vertexArray_);
-    glm::mat4 mvp = data.viewProjMatrix * getModelMatrix();
-    glm::mat4 model = getModelMatrix();
 
-    glUniformMatrix4fv(glGetUniformLocation(program_, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&mvp);
-    glUniformMatrix4fv(glGetUniformLocation(program_, "modelMatrix"), 1, GL_FALSE, (float*)&model);
-    glUniform3f(glGetUniformLocation(program_, "lightSource"), data.lightSource.x, data.lightSource.y, data.lightSource.z);
-    glDrawElements(
-        GL_TRIANGLES,      // mode
-        faceCount_,    // count
-        GL_UNSIGNED_SHORT,   // type
-        (void*)0           // element array buffer offset
-    );
+    glm::mat4 modelViewProjMatrix = data.viewProjMatrix * getModelMatrix();
+    glm::mat4 modelMatrix = getModelMatrix();
+
+    glUniformMatrix4fv(glGetUniformLocation(program_,
+        "modelViewProjectionMatrix"), 1, GL_FALSE,
+        (float*)&modelViewProjMatrix);
+
+    glUniformMatrix4fv(glGetUniformLocation(program_,
+        "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+    glUniform3f(glGetUniformLocation(program_, "lightSource"),
+        data.lightSource.x, data.lightSource.y, data.lightSource.z);
+
+    glDrawElements(GL_TRIANGLES, faceCount_, GL_UNSIGNED_SHORT, (void*)0);
+
     glBindVertexArray(0);
     glUseProgram(0);
 }
 
-float Terrain::getHeight(float x, float z) const
+int ExampleTerrain::getRows() const { return 100; }
+
+int ExampleTerrain::getCols() const { return 100; }
+
+float ExampleTerrain::getSizeX() const { return 100.0f; }
+
+float ExampleTerrain::getSizeZ() const { return 100.0f; }
+
+float ExampleTerrain::getHeight(float x, float z) const
 {
     z = -z;
     return sin(x / 12.3)*cos(z / 13.12) * 3 +
