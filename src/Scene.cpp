@@ -65,6 +65,8 @@ void Scene::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    if (!camera_) return;
+
     RenderData data;
     data.lightSource = light_;
     data.viewProjMatrix = camera_->getViewProjMatrix();

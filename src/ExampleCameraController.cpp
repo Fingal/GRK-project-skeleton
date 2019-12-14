@@ -5,23 +5,25 @@
 //
 //==============================================================================================
 //==============================================================================================
-#include "CameraController.h"
+#include "ExampleCameraController.h"
 #include "freeglut.h"
 
-CameraController::CameraController(Camera* camera)
+ExampleCameraController::ExampleCameraController()
 {
-    lastX_ = -1;
-    lastY_ = -1;
-    camera_ = camera;
     moveSpeed_ = 1.f;
     rotationSpeed_ = glm::radians(10.f);
 }
 
-CameraController::~CameraController()
+ExampleCameraController::~ExampleCameraController()
 {
 }
 
-void CameraController::keyboardInput(unsigned char key, int x, int y)
+void ExampleCameraController::setCamera(Camera *camera)
+{
+    camera_ = camera;
+}
+
+void ExampleCameraController::keyboardInput(unsigned char key, int x, int y)
 {
     glm::vec3 offset(0, 0, 0);
     float yaw = 0;
@@ -40,8 +42,10 @@ void CameraController::keyboardInput(unsigned char key, int x, int y)
     if (yaw != 0) rotate(glm::angleAxis(yaw, glm::vec3(0, 1, 0)));
 }
 
-void CameraController::mouseInput(int button, int state, int x, int y)
+void ExampleCameraController::mouseInput(int button, int state, int x, int y)
 {
+    if (!camera_) return;
+
     if (lastX_ < 0 || state == GLUT_DOWN) {
         lastX_ = x, lastY_ = y;
     }
@@ -57,8 +61,10 @@ void CameraController::mouseInput(int button, int state, int x, int y)
     lastY_ = y;
 }
 
-void CameraController::translate(glm::vec3 const & offset)
+void ExampleCameraController::translate(glm::vec3 const & offset)
 {
+    if (!camera_) return;
+
     glm::vec3 pos = camera_->getPosition()
         + camera_->getSide() * offset.x
         + camera_->getDirection() * offset.z
@@ -67,8 +73,10 @@ void CameraController::translate(glm::vec3 const & offset)
     camera_->setViewProperties(pos, camera_->getDirection(), camera_->getSide());
 }
 
-void CameraController::rotate(glm::quat const & rotation)
+void ExampleCameraController::rotate(glm::quat const & rotation)
 {
+    if (!camera_) return;
+
     glm::vec3 dir = rotation * camera_->getDirection();
     glm::vec3 side = glm::cross(dir, glm::vec3(0,1,0));
     camera_->setViewProperties(camera_->getPosition(), dir, side);

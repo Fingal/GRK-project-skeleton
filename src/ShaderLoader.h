@@ -19,8 +19,9 @@ namespace Core
 class ShaderLoader
 {
 public:
-    ShaderLoader(void);
-    virtual ~ShaderLoader(void);
+    ShaderLoader();
+    virtual ~ShaderLoader();
+
     GLuint CreateProgram(char* VertexShaderFilename,
                          char* FragmentShaderFilename);
 

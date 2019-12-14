@@ -58,6 +58,11 @@ void ExampleTerrain::init()
     glBindVertexArray(0);
 }
 
+void ExampleTerrain::setModelMatrix(glm::mat4 const & m)
+{
+    // ignore (terrain is static)
+}
+
 glm::mat4 ExampleTerrain::getModelMatrix() const
 {
     return glm::mat4();

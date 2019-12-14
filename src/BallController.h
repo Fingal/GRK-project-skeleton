@@ -1,3 +1,10 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         EXAMPLE: BALL CONTROLLER
+//
+//==============================================================================================
+//==============================================================================================
 #pragma once
 #include "InputController.h"
 #include "glm.hpp"
@@ -7,8 +14,11 @@
 class BallController : public InputController
 {
 public:
-    BallController(Terrain* t);
+    BallController();
     virtual ~BallController();
+
+    // set terrain for the ball to follow
+    void setTerrain(Terrain* t);
 
     void keyboardInput(unsigned char key, int x, int y);
     void mouseInput(int button, int state, int x, int y) {}
@@ -16,7 +26,7 @@ public:
     glm::vec3 getPos() const;
 
 private:
-    Terrain* terrain_;
+    Terrain* terrain_ = nullptr;
     float x_ = 0, z_ = 0;
 };
 

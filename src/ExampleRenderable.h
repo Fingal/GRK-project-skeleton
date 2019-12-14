@@ -19,8 +19,11 @@ public:
     ExampleRenderable(const char* path);
     virtual ~ExampleRenderable();
 
-    void setMatrixFunction(std::function<glm::mat4(float)> matrixFunction);
+    // set function to be called to update the model matrix
+    void setMatrixFunction(std::function<
+        glm::mat4(ExampleRenderable*, float)> func);
 
+    void setModelMatrix(glm::mat4 const& matrix);
     glm::mat4 getModelMatrix() const { return modelMatrix_; }
 
     void update(float time);
@@ -31,12 +34,12 @@ private:
 
     int faceCount_;
 
-    glm::mat4 modelMatrix_;
+    glm::mat4 localModelMatrix_, modelMatrix_;
 
     GLuint program_;
     GLuint vertexArray_;
     GLuint vertexBuffer_;
     GLuint vertexIndexBuffer_;
-    std::function<glm::mat4(float)> matrixFunction_;
+    std::function<glm::mat4(ExampleRenderable*, float)> matrixFunction_;
 };
 

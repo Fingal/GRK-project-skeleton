@@ -61,7 +61,7 @@ public:
 private:
     map<unsigned int,InputController*> inputs_;
     map<unsigned int, Renderable*> renderables_;
-    Camera* camera_;
+    Camera* camera_ = nullptr;
     unsigned int nextRenderableId_ = 1;
     unsigned int nextInputId_ = 1;
     glm::vec3 light_;

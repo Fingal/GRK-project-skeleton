@@ -16,6 +16,7 @@ public:
 
     void init();
 
+    void setModelMatrix(glm::mat4 const &m);
     glm::mat4 getModelMatrix() const;
     void update(float time);
     void render(RenderData& data);

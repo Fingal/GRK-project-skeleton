@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\BallController.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\CameraController.cpp" />
+    <ClCompile Include="src\ExampleCameraController.cpp" />
     <ClCompile Include="src\ExampleTerrain.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PhysxScene.cpp" />
@@ -29,7 +29,7 @@
   <ItemGroup>
     <ClInclude Include="src\BallController.h" />
     <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\CameraController.h" />
+    <ClInclude Include="src\ExampleCameraController.h" />
     <ClInclude Include="src\ExampleTerrain.h" />
     <ClInclude Include="src\InputController.h" />
     <ClInclude Include="src\objload.h" />

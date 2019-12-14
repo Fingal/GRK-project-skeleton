@@ -14,33 +14,85 @@
 #include "PhysxScene.h"
 #include "Camera.h"
 
-#include "CameraController.h"
+#include "ExampleCameraController.h"
 #include "BallController.h"
 #include "ExampleRenderable.h"
 #include "ExampleTerrain.h"
 
-Scene scene;
-ExampleRenderable *ball1, *ball2, *ball3, *ball4;
-ExampleTerrain terrain;
-Camera camera;
-CameraController controller(&camera);
-int id = 0;
-
-PhysxScene pxScene(9.8);
-PxRigidDynamic* dynamicBall = nullptr;
-PxMaterial *ballMaterial = nullptr;
+//==========================================================
+const float gravity = 9.8; // m / s^2
 // fixed timestep for stable and deterministic simulation
 const double physxStepTime = 1.f / 60.f;
 double physxTimeToProcess = 0;
 
-void renderScene()
-{
-    static double prevTime = 0;
-    double time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    double dtime = time - prevTime;
-    prevTime = time;
+Scene scene;
+PhysxScene pxScene(gravity);
+Camera camera;
+//==========================================================
 
-    if (dtime < 1.f)   // process physics only if more than 1 fps
+
+//==========================================================
+// Group: Terrain
+ExampleTerrain terrain;
+// ...
+// ...
+
+//==========================================================
+// Group: Physics
+ExampleCameraController cameraController;
+BallController ballController;
+ExampleRenderable *ball;
+PxMaterial *groundMaterial = nullptr;
+PxMaterial *ballMaterial = nullptr;
+PxRigidStatic* groundBody = nullptr;
+PxRigidDynamic* ballBody= nullptr;
+// ...
+// ...
+
+//==========================================================
+// Group: Effects
+// ...
+// ...
+
+//==========================================================
+
+
+//==========================================================
+void updateTransforms()
+{
+    // Here we retrieve the current transforms of the objects from the physical simulation.
+    auto actorFlags = PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC;
+    PxU32 nbActors = pxScene.scene->getNbActors(actorFlags);
+    if (nbActors)
+    {
+        std::vector<PxRigidActor*> actors(nbActors);
+        pxScene.scene->getActors(actorFlags, (PxActor**)&actors[0], nbActors);
+        for (auto actor : actors)
+        {
+            // We use the userData of the objects to set up the proper model matrices.
+            if (!actor->userData) continue;
+            Renderable *renderable = (Renderable*)actor->userData;
+
+            // get world matrix of the object (actor)
+            PxMat44 transform = actor->getGlobalPose();
+            auto &c0 = transform.column0;
+            auto &c1 = transform.column1;
+            auto &c2 = transform.column2;
+            auto &c3 = transform.column3;
+
+            // set up the model matrix used for the rendering
+            renderable->setModelMatrix(glm::mat4(
+                c0.x, c0.y, c0.z, c0.w,
+                c1.x, c1.y, c1.z, c1.w,
+                c2.x, c2.y, c2.z, c2.w,
+                c3.x, c3.y, c3.z, c3.w));
+        }
+    }
+}
+
+void updatePhysics(float dtime)
+{
+    if (dtime < 1.f) // process physics only if more than 1 fps
     {
         physxTimeToProcess += dtime;
     }
@@ -49,100 +101,79 @@ void renderScene()
         pxScene.step(physxStepTime);
         physxTimeToProcess -= physxStepTime;
     }
+}
+
+void renderScene()
+{
+    static double prevTime = 0;
+    double time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+    double dtime = time - prevTime;
+    prevTime = time;
+
+    updatePhysics(dtime);
+    updateTransforms();
 
     scene.update(time);
     scene.render();
 }
 
-glm::mat4 move_ball(float time)
-{
-    auto actorFlags = PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC;
-    PxU32 nbActors = pxScene.scene->getNbActors(actorFlags);
-    if (nbActors)
-    {
-        std::vector<PxRigidActor*> actors(nbActors);
-        pxScene.scene->getActors(actorFlags, (PxActor**)&actors[0], nbActors);
-
-        // get world matrix of actor
-        PxMat44 transform = actors.back()->getGlobalPose();
-        auto &c0 = transform.column0;
-        auto &c1 = transform.column1;
-        auto &c2 = transform.column2;
-        auto &c3 = transform.column3;
-        return glm::mat4(
-                   c0.x, c0.y, c0.z, c0.w,
-                   c1.x, c1.y, c1.z, c1.w,
-                   c2.x, c2.y, c2.z, c2.w,
-                   c3.x, c3.y, c3.z, c3.w);
-    }
-    return glm::mat4();
-}
-
 void init()
 {
-    terrain.init();
-    //creating exemplary planetary system
-    //creating 'sun'
-    ball1 = new ExampleRenderable("models/ball.obj");
-    ball1->setMatrixFunction([&](float time)
-    {
-        return glm::translate(glm::vec3(0, 50,0))*glm::rotate(time / 19, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(0, 0, 0))*glm::scale(glm::vec3(3));
-    });
-    scene.addRenderable(ball1);
-    //creating planet with parent object as sun
-    ball2 = new ExampleRenderable("models/ball.obj");
-
-    ball2->setMatrixFunction([&](float time)
-    {
-        return ball1->getModelMatrix() * glm::rotate(time / 3, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(10, 0, 0))*glm::scale(glm::vec3(0.5));
-    });
-    scene.addRenderable(ball2);
-    //creating moon for a planet
-    ball3 = new ExampleRenderable("models/ball.obj");
-
-    ball3->setMatrixFunction([&](float time)
-    {
-        return ball2->getModelMatrix() * glm::rotate(time * 2, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(1, 0, 0))*glm::scale(glm::vec3(0.1));
-    });
-    scene.addRenderable(ball3);
-    //end of planetary system
-
-    //physix example
-    ball4 = new ExampleRenderable("models/ball.obj");
-    //physix based objects shouldn't have parent object
-    ball4->setMatrixFunction(move_ball);
-    scene.addRenderable(ball4);
-
-    {
-        PxTransform t(0, 10, 0);
-
-        ballMaterial = pxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
-
-        PxShape* shape = pxScene.physics->createShape(
-                             PxSphereGeometry(1), *ballMaterial);
-
-        dynamicBall = pxScene.physics->createRigidDynamic(t);
-        dynamicBall->attachShape(*shape);
-        dynamicBall->setLinearVelocity(PxVec3(0,10,0));
-        PxRigidBodyExt::updateMassAndInertia(*dynamicBall, 10.0f);
-        pxScene.scene->addActor(*dynamicBall);
-
-        shape->release();
-    }
-
-
-    id=scene.addRenderable(&terrain);
-    //registering camera and controller for it
     scene.setCamera(&camera);
-    scene.addInput(&controller);
-    //scene.addInput(bController);
+
+    //==========================================================
+    // Group: Terrain
+    terrain.init();
+    scene.addRenderable(&terrain);
+
+    //==========================================================
+    // Group: Physics
+    ball = new ExampleRenderable("models/ball.obj");
+    scene.addRenderable(ball);
+
+    cameraController.setCamera(&camera);
+    scene.addInput(&cameraController);
+
+    ballController.setTerrain(&terrain);
+    scene.addInput(&ballController);
+    
+    ball->setMatrixFunction([](ExampleRenderable *ball, float time) {
+        // get position from controller
+        return glm::translate(ballController.getPos());
+    });
+
+    groundBody = pxScene.physics->createRigidStatic(PxTransformFromPlaneEquation(PxPlane(0, 1, 0, 0)));
+    groundMaterial = pxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
+    PxShape* planeShape = pxScene.physics->createShape(PxPlaneGeometry(), *groundMaterial);
+    groundBody->attachShape(*planeShape);
+    planeShape->release();
+    groundBody->userData = nullptr;
+    pxScene.scene->addActor(*groundBody);
+        
+    ballBody = pxScene.physics->createRigidDynamic(PxTransform(0, 10, 0));
+    ballMaterial = pxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
+    PxShape* ballShape = pxScene.physics->createShape(PxSphereGeometry(1), *ballMaterial);
+    ballBody->attachShape(*ballShape);
+    ballShape->release();
+    ballBody->userData = ball;
+    ballBody->setLinearVelocity(PxVec3(0,10,0));
+    PxRigidBodyExt::updateMassAndInertia(*ballBody, 10.0f);
+    pxScene.scene->addActor(*ballBody);
+
+    //==========================================================
+    // Group: Effects
+    // ...
+    // ...
+    
+    //==========================================================
+
     glEnable(GL_DEPTH_TEST);
 }
 
 void shutdown()
 {
-
 }
+
 //binding scene to mouse and keyboard input
 void mouse(int button, int state, int x, int y)
 {

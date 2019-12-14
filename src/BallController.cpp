@@ -1,7 +1,17 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         EXAMPLE: BALL CONTROLLER
+//
+//==============================================================================================
+//==============================================================================================
 #include "BallController.h"
 
+BallController::BallController()
+{
+}
 
-BallController::BallController(Terrain* t)
+void BallController::setTerrain(Terrain * t)
 {
     terrain_ = t;
 }
@@ -28,7 +38,9 @@ void BallController::keyboardInput(unsigned char key, int x, int y)
 
 glm::vec3 BallController::getPos() const
 {
-    return glm::vec3(x_, terrain_->getHeight(x_, z_), z_);
+    float y = 0;
+    if (terrain_) y = terrain_->getHeight(x_, z_);
+    return glm::vec3(x_, y, z_);
 }
 
 BallController::~BallController()

@@ -12,7 +12,6 @@
 #include "glm.hpp"
 #include "ext.hpp"
 
-/*exemplary implementation of Camera based on quaterions source of camera and perspective matrix*/
 class Camera
 {
 public:
