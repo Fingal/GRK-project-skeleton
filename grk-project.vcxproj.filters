@@ -127,18 +127,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader_1_1.frag">
-      <Filter>Shader Files</Filter>
-    </None>
-    <None Include="shaders\shader_1_1.vert">
-      <Filter>Shader Files</Filter>
-    </None>
-    <None Include="shaders\shader_1_2.frag">
-      <Filter>Shader Files</Filter>
-    </None>
-    <None Include="shaders\shader_1_2.vert">
-      <Filter>Shader Files</Filter>
-    </None>
     <None Include="shaders\shader_terrain.frag">
       <Filter>Shader Files</Filter>
     </None>
