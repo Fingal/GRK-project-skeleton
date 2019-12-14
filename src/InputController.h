@@ -13,9 +13,9 @@
 class InputController
 {
 public:
-    InputController();
-    virtual void keyboardInput(unsigned char key, int x, int y) {};
-    virtual void mouseInput(int button, int state, int x, int y) {};
-    virtual ~InputController();
+    InputController() {}
+    virtual ~InputController() {}
+    virtual void keyboardInput(unsigned char key, int x, int y) = 0;
+    virtual void mouseInput(int button, int state, int x, int y) = 0;
 };
 
