@@ -18,7 +18,6 @@
     <ClCompile Include="src\PhysxScene.cpp" />
     <ClCompile Include="src\RenderData.cpp" />
     <ClCompile Include="src\ExampleRenderable.cpp" />
-    <ClCompile Include="src\Render_Utils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader_Loader.cpp" />
     <ClCompile Include="src\SOIL\image_DXT.c" />
@@ -37,7 +36,6 @@
     <ClInclude Include="src\RenderData.h" />
     <ClInclude Include="src\ExampleRenderable.h" />
     <ClInclude Include="src\Renderable.h" />
-    <ClInclude Include="src\Render_Utils.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader_Loader.h" />
     <ClInclude Include="src\SOIL\image_DXT.h" />

@@ -4,14 +4,14 @@
 
 PhysxScene::PhysxScene(float gravity)
 {
-    foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, errorCallback);
+    foundation_ = PxCreateFoundation(PX_PHYSICS_VERSION, allocator_, errorCallback_);
 
-    physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, PxTolerancesScale(), true);
+    physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation_, PxTolerancesScale(), true);
 
     PxSceneDesc sceneDesc(physics->getTolerancesScale());
     sceneDesc.gravity = PxVec3(0.0f, -gravity, 0.0f);
-    dispatcher = PxDefaultCpuDispatcherCreate(2);
-    sceneDesc.cpuDispatcher = dispatcher;
+    dispatcher_ = PxDefaultCpuDispatcherCreate(2);
+    sceneDesc.cpuDispatcher = dispatcher_;
     sceneDesc.filterShader = PxDefaultSimulationFilterShader;
     scene = physics->createScene(sceneDesc);
 }
@@ -19,9 +19,9 @@ PhysxScene::PhysxScene(float gravity)
 PhysxScene::~PhysxScene()
 {
     PX_RELEASE(scene);
-    PX_RELEASE(dispatcher);
+    PX_RELEASE(dispatcher_);
     PX_RELEASE(physics);
-    PX_RELEASE(foundation);
+    PX_RELEASE(foundation_);
 }
 
 void PhysxScene::step(float dt)

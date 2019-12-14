@@ -7,6 +7,7 @@
 //==============================================================================================
 #include "ExampleRenderable.h"
 #include "Shader_Loader.h"
+#include "objload.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -18,23 +19,23 @@ ExampleRenderable::ExampleRenderable(const char * path)
 void ExampleRenderable::init(const char * path)
 {
     obj::Model model = obj::loadModelFromFile(path);
-    faceCount = model.faces["default"].size();
+    faceCount_ = model.faces["default"].size();
 
     Core::Shader_Loader shaderLoader;
-    program = shaderLoader.CreateProgram(
+    program_ = shaderLoader.CreateProgram(
         "shaders/shader_test.vert",
         "shaders/shader_test.frag");
 
-    glGenVertexArrays(1, &vertexArray);
-    glBindVertexArray(vertexArray);
-    glGenBuffers(1, &vertexIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexIndexBuffer);
+    glGenVertexArrays(1, &vertexArray_);
+    glBindVertexArray(vertexArray_);
+    glGenBuffers(1, &vertexIndexBuffer_);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertexIndexBuffer_);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-        faceCount * sizeof(unsigned short),
+        faceCount_ * sizeof(unsigned short),
         model.faces["default"].data(), GL_STATIC_DRAW);
 
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    glGenBuffers(1, &vertexBuffer_);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer_);
     size_t vsize = model.vertex.size() * sizeof(float);
     size_t nsize = model.normal.size() * sizeof(float);
     size_t tsize = model.texCoord.size() * sizeof(float);
@@ -46,15 +47,15 @@ void ExampleRenderable::init(const char * path)
         glBufferSubData(GL_ARRAY_BUFFER, vsize + nsize, tsize, model.texCoord.data());
     }
 
-    auto glPos = glGetAttribLocation(program, "vertexPosition");
+    auto glPos = glGetAttribLocation(program_, "vertexPosition");
     glEnableVertexAttribArray(glPos);
     glVertexAttribPointer(glPos, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
-    auto glNor = glGetAttribLocation(program, "vertexNormal");
+    auto glNor = glGetAttribLocation(program_, "vertexNormal");
     glEnableVertexAttribArray(glNor);
     glVertexAttribPointer(glNor, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vsize));
 
-    auto glUV = glGetAttribLocation(program, "vertexTexCoord");
+    auto glUV = glGetAttribLocation(program_, "vertexTexCoord");
     glEnableVertexAttribArray(glUV);
     glVertexAttribPointer(glUV, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vsize + nsize));
 
@@ -63,28 +64,28 @@ void ExampleRenderable::init(const char * path)
 
 void ExampleRenderable::setMatrixFunction(std::function<glm::mat4(float)> func)
 {
-    matrixFunction = func;
+    matrixFunction_ = func;
 }
 
 void ExampleRenderable::update(float time)
 {
-    if (matrixFunction) {
-        modelMatrix = matrixFunction(time);
+    if (matrixFunction_) {
+        modelMatrix_ = matrixFunction_(time);
     }
 }
 
 void ExampleRenderable::render(RenderData& data)
 {
-    glUseProgram(program);
-    glBindVertexArray(vertexArray);
+    glUseProgram(program_);
+    glBindVertexArray(vertexArray_);
     glm::mat4 mvp = data.viewProjMatrix * getModelMatrix();
     glm::mat4 model = getModelMatrix();
-    glUniformMatrix4fv(glGetUniformLocation(program, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&mvp);
-    glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, (float*)&model);
-    glUniform3f(glGetUniformLocation(program, "lightSource"), data.lightSource.x, data.lightSource.y, data.lightSource.z);
+    glUniformMatrix4fv(glGetUniformLocation(program_, "modelViewProjectionMatrix"), 1, GL_FALSE, (float*)&mvp);
+    glUniformMatrix4fv(glGetUniformLocation(program_, "modelMatrix_"), 1, GL_FALSE, (float*)&model);
+    glUniform3f(glGetUniformLocation(program_, "lightSource"), data.lightSource.x, data.lightSource.y, data.lightSource.z);
     glDrawElements(
         GL_TRIANGLES,      // mode
-        faceCount,    // count
+        faceCount_,    // count
         GL_UNSIGNED_SHORT,   // type
         (void*)0           // element array buffer offset
     );

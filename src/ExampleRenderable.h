@@ -7,7 +7,6 @@
 //==============================================================================================
 #pragma once
 #include "Renderable.h"
-#include "Render_Utils.h"
 #include<functional>
 
 //exemplary clas that should be used in your project
@@ -22,7 +21,7 @@ public:
 
     void setMatrixFunction(std::function<glm::mat4(float)> matrixFunction);
 
-    glm::mat4 getModelMatrix() const { return modelMatrix; }
+    glm::mat4 getModelMatrix() const { return modelMatrix_; }
 
     void update(float time);
     void render(RenderData& data);
@@ -30,14 +29,14 @@ public:
 private:
     void init(const char * path);
 
-    int faceCount;
+    int faceCount_;
 
-    glm::mat4 modelMatrix;
+    glm::mat4 modelMatrix_;
 
-    GLuint program;
-    GLuint vertexArray;
-    GLuint vertexBuffer;
-    GLuint vertexIndexBuffer;
-    std::function<glm::mat4(float)> matrixFunction;
+    GLuint program_;
+    GLuint vertexArray_;
+    GLuint vertexBuffer_;
+    GLuint vertexIndexBuffer_;
+    std::function<glm::mat4(float)> matrixFunction_;
 };
 

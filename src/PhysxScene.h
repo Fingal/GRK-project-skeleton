@@ -23,8 +23,8 @@ public:
     void step(float dt);
 
 private:
-    PxDefaultAllocator		allocator;
-    PxDefaultErrorCallback	errorCallback;
-    PxFoundation*			foundation = nullptr;
-    PxDefaultCpuDispatcher*	dispatcher = nullptr;
+    PxDefaultAllocator		allocator_;
+    PxDefaultErrorCallback	errorCallback_;
+    PxFoundation*			foundation_ = nullptr;
+    PxDefaultCpuDispatcher*	dispatcher_ = nullptr;
 };

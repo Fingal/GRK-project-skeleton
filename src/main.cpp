@@ -9,7 +9,6 @@
 #include "ext.hpp"
 #include "SOIL/SOIL.h"
 #include "Shader_Loader.h"
-#include "Render_Utils.h"
 
 #include "Scene.h"
 #include "PhysxScene.h"

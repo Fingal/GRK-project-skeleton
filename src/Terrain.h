@@ -1,6 +1,13 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         EXAMPLE: TERRAIN
+//
+//==============================================================================================
+//==============================================================================================
 #pragma once
 #include "Renderable.h"
-/*Terrain object responsible from showing terrain and giving height*/
+
 class Terrain : public Renderable
 {
 public:
@@ -13,15 +20,15 @@ public:
     void update(float time);
     void render(RenderData& data);
 
-    //returns height at current possition x,z
+    //returns height at current position x,z
     float getHeight(float x, float z) const;
 
 private:
-    int faceCount;
+    int faceCount_;
 
-    GLuint program;
-    GLuint vertexArray;
-    GLuint vertexBuffer;
-    GLuint vertexIndexBuffer;
+    GLuint program_;
+    GLuint vertexArray_;
+    GLuint vertexBuffer_;
+    GLuint vertexIndexBuffer_;
 };
 
