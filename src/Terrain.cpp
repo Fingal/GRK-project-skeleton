@@ -15,7 +15,6 @@ Terrain::~Terrain()
 void Terrain::init()
 {
     obj::Model model = obj::loadModelFromFile("models/terrain.obj");
-
     faceCount = model.faces["default"].size();
 
     Core::Shader_Loader shaderLoader;

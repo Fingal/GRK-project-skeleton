@@ -25,7 +25,7 @@ private:
     float moveSpeed_, rotationSpeed_;
     Camera* camera_;
 
-    void translate(glm::vec3 const &offset);
+    void translate(glm::vec3 const &offset); 
     void rotate(glm::quat const &rotation);
 };
 

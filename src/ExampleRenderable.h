@@ -30,8 +30,7 @@ public:
 private:
     void init(const char * path);
 
-    obj::Model model;
-    int size;
+    int faceCount;
 
     glm::mat4 modelMatrix;
 
