@@ -59,3 +59,8 @@ glm::mat4 Camera::getProjectionMatrix() const
     return glm::perspectiveFov(fovy_, (float)width,
         (float)height, znear_, zfar_);
 }
+
+glm::mat4 Camera::getViewProjMatrix() const
+{
+    return getProjectionMatrix() * getViewMatrix();
+}

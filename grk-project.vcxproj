@@ -11,18 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BallControl.cpp" />
+    <ClCompile Include="src\BallController.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\CameraControl.cpp" />
-    <ClCompile Include="src\InputControl.cpp" />
+    <ClCompile Include="src\CameraController.cpp" />
+    <ClCompile Include="src\InputController.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PhysxScene.cpp" />
     <ClCompile Include="src\RenderData.cpp" />
-    <ClCompile Include="src\RenderOBJ.cpp" />
-    <ClCompile Include="src\RenderObject.cpp" />
+    <ClCompile Include="src\ExampleRenderable.cpp" />
     <ClCompile Include="src\Render_Utils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\SceneGraphNode.cpp" />
     <ClCompile Include="src\Shader_Loader.cpp" />
     <ClCompile Include="src\SOIL\image_DXT.c" />
     <ClCompile Include="src\SOIL\image_helper.c" />
@@ -31,18 +29,17 @@
     <ClCompile Include="src\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\BallControl.h" />
+    <ClInclude Include="src\BallController.h" />
     <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\CameraControl.h" />
-    <ClInclude Include="src\InputControl.h" />
+    <ClInclude Include="src\CameraController.h" />
+    <ClInclude Include="src\InputController.h" />
     <ClInclude Include="src\objload.h" />
     <ClInclude Include="src\PhysxScene.h" />
     <ClInclude Include="src\RenderData.h" />
-    <ClInclude Include="src\RenderOBJ.h" />
-    <ClInclude Include="src\RenderObject.h" />
+    <ClInclude Include="src\ExampleRenderable.h" />
+    <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Render_Utils.h" />
     <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\SceneGraphNode.h" />
     <ClInclude Include="src\Shader_Loader.h" />
     <ClInclude Include="src\SOIL\image_DXT.h" />
     <ClInclude Include="src\SOIL\image_helper.h" />

@@ -1,19 +1,21 @@
-#include "RenderOBJ.h"
+//==============================================================================================
+//==============================================================================================
+//
+//         EXAMPLE: ANIMATED OBJECT
+//
+//==============================================================================================
+//==============================================================================================
+#include "ExampleRenderable.h"
 #include "Shader_Loader.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-
-
-RenderOBJ::RenderOBJ(const char * path) : RenderObject()
+ExampleRenderable::ExampleRenderable(const char * path)
 {
     init(path);
 }
-RenderOBJ::RenderOBJ(const char * path,RenderObject* parent) : RenderObject(parent)
-{
-    init(path);
-}
-void RenderOBJ::init(const char * path)
+
+void ExampleRenderable::init(const char * path)
 {
     //auto loader = objl::Loader();
     //loader.LoadFile(path);
@@ -60,21 +62,20 @@ void RenderOBJ::init(const char * path)
     glBindVertexArray(0);
 }
 
-void RenderOBJ::setMatrixFunction(glm::mat4(*matrixFunction)(float time))
+void ExampleRenderable::setMatrixFunction(std::function<glm::mat4(float)> func)
 {
-    this->matrixFunction = matrixFunction;
+    matrixFunction = func;
 }
 
-glm::mat4 RenderOBJ::calculateTransformationMarix(float time)
+void ExampleRenderable::update(float time)
 {
-    graphNode->matrix = matrixFunction(time);
-    return graphNode->matrix;
+    if (matrixFunction) {
+        modelMatrix = matrixFunction(time);
+    }
 }
 
-
-void RenderOBJ::render(RenderData& data)
+void ExampleRenderable::render(RenderData& data)
 {
-
     glUseProgram(program);
     glBindVertexArray(vertexArray);
     glm::mat4 mvp = data.viewProjMatrix * getModelMatrix();
@@ -92,6 +93,6 @@ void RenderOBJ::render(RenderData& data)
     glUseProgram(0);
 }
 
-RenderOBJ::~RenderOBJ()
+ExampleRenderable::~ExampleRenderable()
 {
 }

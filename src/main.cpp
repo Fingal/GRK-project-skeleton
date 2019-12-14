@@ -13,17 +13,17 @@
 
 #include "Scene.h"
 #include "PhysxScene.h"
-#include "CameraControl.h"
+#include "CameraController.h"
 #include "Camera.h"
-#include "RenderOBJ.h"
+#include "ExampleRenderable.h"
 #include "Terrain.h"
-#include "BallControl.h"
+#include "BallController.h"
 
-Scene scene=Scene();
-RenderOBJ* ball;
-Terrain terrain = Terrain();
-Camera camera=Camera();
-CameraControl controller= CameraControl(&camera);
+Scene scene;
+ExampleRenderable *ball1, *ball2, *ball3, *ball4;
+Terrain terrain;
+Camera camera;
+CameraController controller(&camera);
 int id = 0;
 
 PhysxScene physxScene(9.8);
@@ -32,7 +32,6 @@ PxMaterial *ballMaterial = nullptr;
 // fixed timestep for stable and deterministic simulation
 const double physxStepTime = 1.f / 60.f;
 double physxTimeToProcess = 0;
-
 
 void renderScene()
 {
@@ -51,12 +50,7 @@ void renderScene()
         physxTimeToProcess -= physxStepTime;
     }
 
-    auto x=[time]()
-    {
-        return time * time;
-    }
-    ();
-    scene.calculateMatrices(time);
+    scene.update(time);
     scene.render();
 }
 
@@ -86,39 +80,38 @@ glm::mat4 move_ball(float time)
 
 void init()
 {
-
     terrain.init();
     //creating exemplary planetary system
     //creating 'sun'
-    ball = new RenderOBJ("models/ball.obj");
-    ball->setMatrixFunction([](float time)
+    ball1 = new ExampleRenderable("models/ball.obj");
+    ball1->setMatrixFunction([&](float time)
     {
         return glm::translate(glm::vec3(0, 50,0))*glm::rotate(time / 19, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(0, 0, 0))*glm::scale(glm::vec3(3));
     });
-    scene.registerObject(ball);
+    scene.addRenderable(ball1);
     //creating planet with parent object as sun
-    ball = new RenderOBJ("models/ball.obj",ball);
+    ball2 = new ExampleRenderable("models/ball.obj");
 
-    ball->setMatrixFunction([](float time)
+    ball2->setMatrixFunction([&](float time)
     {
-        return glm::rotate(time / 3, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(10, 0, 0))*glm::scale(glm::vec3(0.5));
+        return ball1->getModelMatrix() * glm::rotate(time / 3, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(10, 0, 0))*glm::scale(glm::vec3(0.5));
     });
-    scene.registerObject(ball);
+    scene.addRenderable(ball2);
     //creating moon for a planet
-    ball = new RenderOBJ("models/ball.obj",ball);
+    ball3 = new ExampleRenderable("models/ball.obj");
 
-    ball->setMatrixFunction([](float time)
+    ball3->setMatrixFunction([&](float time)
     {
-        return glm::rotate(time*2, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(1, 0, 0))*glm::scale(glm::vec3(0.1));
+        return ball2->getModelMatrix() * glm::rotate(time * 2, glm::vec3(0, 1, 0))*glm::translate(glm::vec3(1, 0, 0))*glm::scale(glm::vec3(0.1));
     });
-    scene.registerObject(ball);
+    scene.addRenderable(ball3);
     //end of planetary system
 
     //physix example
-    ball = new RenderOBJ("models/ball.obj");
+    ball4 = new ExampleRenderable("models/ball.obj");
     //physix based objects shouldn't have parent object
-    ball->setMatrixFunction(move_ball);
-    scene.registerObject(ball);
+    ball4->setMatrixFunction(move_ball);
+    scene.addRenderable(ball4);
 
     {
         PxTransform t(0, 10, 0);
@@ -138,11 +131,11 @@ void init()
     }
 
 
-    id=scene.registerObject(&terrain);
+    id=scene.addRenderable(&terrain);
     //registering camera and controller for it
     scene.setCamera(&camera);
-    scene.registerInput(&controller);
-    //scene.registerInput(bController);
+    scene.addInput(&controller);
+    //scene.addInput(bController);
     glEnable(GL_DEPTH_TEST);
 }
 

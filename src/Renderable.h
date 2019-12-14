@@ -8,23 +8,20 @@
 //==============================================================================================
 //==============================================================================================
 #pragma once
+#include "glm.hpp"
 #include "glew.h"
 #include "glm.hpp"
+#include "RenderData.h"
 
-class SceneGraphNode
+/*abstract render object*/
+class Renderable
 {
 public:
-    SceneGraphNode();
-    SceneGraphNode(SceneGraphNode* parent);
-    virtual ~SceneGraphNode();
+    Renderable() {}
+    virtual ~Renderable() {}
 
-    glm::mat4 getMatrix();
-    glm::mat4 matrix;
-
-private:
-    SceneGraphNode* parent;
-    bool is_root;
-    float time;
-
+    virtual glm::mat4 getModelMatrix() const = 0;
+    virtual void update(float time) = 0;
+    virtual void render(RenderData& data) = 0;
 };
 

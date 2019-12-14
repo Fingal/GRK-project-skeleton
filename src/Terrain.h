@@ -1,25 +1,23 @@
 #pragma once
-#include "RenderObject.h"
+#include "Renderable.h"
 /*Terrain object responsible from showing terrain and giving height*/
-class Terrain :
-    public RenderObject
+class Terrain : public Renderable
 {
 public:
     Terrain();
     virtual ~Terrain();
-    glm::mat4 calculateTransformationMarix(float time);
-
-    //returns height at current possition a,b
-    float getHeight(float a, float b);
-
-    void render(RenderData& data);
 
     void init();
+    
+    glm::mat4 getModelMatrix() const;
+    void update(float time);
+    void render(RenderData& data);
+
+    //returns height at current possition x,z
+    float getHeight(float x, float z) const;
 
 private:
-
-
-    int size;
+    int faceCount;
 
     GLuint program;
     GLuint vertexArray;

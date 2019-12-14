@@ -1,97 +1,81 @@
 #include "Scene.h"
 
-
-
 Scene::Scene()
+    : light_(glm::vec3(80.0, 50.0, 0.0))
 {
-    light = glm::vec3(80.0, 50.0, 0.0);
 }
-
 
 Scene::~Scene()
 {
 }
 
-int Scene::registerInput(InputControl* input)
+int Scene::addRenderable(Renderable * object)
 {
-    lastIdInput += 1;
-    inputControls[lastIdInput] = input;
-    return lastIdInput;
+    renderables_[nextRenderableId_] = object;
+    return nextRenderableId_++;
 }
 
-void Scene::removeObject(int id)
+int Scene::addInput(InputController* input)
 {
-    renderObjects.erase(id);
+    inputs_[nextInputId_] = input;
+    return nextInputId_++;
+}
+
+void Scene::removeRenderable(int id)
+{
+    renderables_.erase(id);
 }
 
 void Scene::removeInput(int id)
 {
-    renderObjects.erase(id);
-}
-
-void Scene::calculateMatrices(float time)
-{
-    for (auto object = renderObjects.begin(); object != renderObjects.end(); object++)
-    {
-        object->second->calculateTransformationMarix(time);
-    }
-
+    inputs_.erase(id);
 }
 
 void Scene::keyboard(unsigned char key, int x, int y)
 {
-
-    for (auto control = inputControls.begin(); control != inputControls.end(); control++)
-    {
-        control->second->keyboardInput(key,x,y);
+    for (auto &input : inputs_) {
+        input.second->keyboardInput(key, x, y);
     }
-
 }
 
 void Scene::mouse(int button, int state, int x, int y)
 {
-    for (auto control = inputControls.begin(); control != inputControls.end(); control++)
-    {
-        control->second->mouseInput(button,state, x, y);
+    for (auto &input : inputs_) {
+        input.second->mouseInput(button, state, x, y);
     }
-
 }
 
 void Scene::setLight(glm::vec3 light)
 {
-    this->light = light;
+    light_ = light;
 }
 
-glm::vec3 Scene::getLight()
+glm::vec3 Scene::getLight() const
 {
-    return this->light;
+    return light_;
 }
 
+void Scene::update(float time)
+{
+    for (auto &renderable : renderables_)
+        renderable.second->update(time);
+}
 void Scene::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     RenderData data;
-    data.lightSource = light;
-    data.viewProjMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
+    data.lightSource = light_;
+    data.viewProjMatrix = camera_->getViewProjMatrix();
 
-    for (auto object = renderObjects.begin(); object != renderObjects.end(); object++)
-    {
-        object->second->render(data);
-    }
+    for (auto &renderable : renderables_)
+        renderable.second->render(data);
 
     glutSwapBuffers();
 }
 
-void Scene::setCamera(Camera * camera)
+void Scene::setCamera(Camera *camera)
 {
-    this->camera = camera;
-}
-
-int Scene::registerObject(RenderObject * object)
-{
-    lastIdObjects += 1;
-    renderObjects[lastIdObjects] = object;
-    return lastIdObjects;
+    camera_ = camera;
 }
