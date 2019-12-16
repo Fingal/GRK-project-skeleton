@@ -26,6 +26,11 @@
 #include "PhysxScene.h"
 #include "Camera.h"
 
+#include "ExampleCameraController.h"
+#include "BallController.h"
+#include "ExampleRenderable.h"
+#include "ExampleTerrain.h"
+
 //==========================================================
 const float gravity = 9.8; // m / s^2
 // fixed timestep for stable and deterministic simulation
@@ -40,11 +45,19 @@ Camera camera;
 
 //==========================================================
 // Group: Terrain
+ExampleTerrain terrain;
 // ...
 // ...
 
 //==========================================================
 // Group: Physics
+ExampleCameraController cameraController;
+BallController ballController;
+ExampleRenderable *ball;
+PxMaterial *groundMaterial = nullptr;
+PxMaterial *ballMaterial = nullptr;
+PxRigidStatic* groundBody = nullptr;
+PxRigidDynamic* ballBody= nullptr;
 // ...
 // ...
 
@@ -61,13 +74,46 @@ void init()
 
     //==========================================================
     // Group: Terrain
-    // ...
-    // ...
+    terrain.init();
+    scene.addRenderable(&terrain);
 
     //==========================================================
     // Group: Physics
-    // ...
-    // ...
+    ball = new ExampleRenderable("models/ball.obj");
+    scene.addRenderable(ball);
+
+    //----------------------------------------------
+    // Use W,S,A,D,Q,E or mouse to control camera
+    cameraController.setCamera(&camera);
+    scene.addInput(&cameraController);
+
+    //----------------------------------------------
+    // Use I,J,K,L to move ball around the terrain
+    ballController.setTerrain(&terrain);
+    scene.addInput(&ballController);
+
+    ball->setMatrixFunction([](float time) {
+        // get position from controller
+        return glm::translate(ballController.getPos());
+    });
+
+    groundBody = pxScene.physics->createRigidStatic(PxTransformFromPlaneEquation(PxPlane(0, 1, 0, 0)));
+    groundMaterial = pxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
+    PxShape* planeShape = pxScene.physics->createShape(PxPlaneGeometry(), *groundMaterial);
+    groundBody->attachShape(*planeShape);
+    planeShape->release();
+    groundBody->userData = nullptr;
+    pxScene.scene->addActor(*groundBody);
+
+    ballBody = pxScene.physics->createRigidDynamic(PxTransform(0, 10, 0));
+    ballMaterial = pxScene.physics->createMaterial(0.5f, 0.5f, 0.6f);
+    PxShape* ballShape = pxScene.physics->createShape(PxSphereGeometry(1), *ballMaterial);
+    ballBody->attachShape(*ballShape);
+    ballShape->release();
+    ballBody->userData = ball;
+    ballBody->setLinearVelocity(PxVec3(0, 10, 0));
+    PxRigidBodyExt::updateMassAndInertia(*ballBody, 10.0f);
+    pxScene.scene->addActor(*ballBody);
 
     //==========================================================
     // Group: Effects
