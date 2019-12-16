@@ -1,3 +1,13 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         THIS IS A SKELETON CODE CLASS
+//
+//         DO NOT MODIFY IT !!!!!!!!!!!!!!!
+//         EXCEPTION: YOU CAN MODIFY PARTS OF THE CODE REGARDING RenderData
+//
+//==============================================================================================
+//==============================================================================================
 #include "Scene.h"
 
 Scene::Scene()
@@ -67,6 +77,7 @@ void Scene::render()
 
     if (!camera_) return;
 
+    // Modify this code if any other data needed (in case of changes in RenderData)
     RenderData data;
     data.lightSource = light_;
     data.viewProjMatrix = camera_->getViewProjMatrix();

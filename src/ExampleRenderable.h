@@ -20,8 +20,7 @@ public:
     virtual ~ExampleRenderable();
 
     // set function to be called to update the model matrix
-    void setMatrixFunction(std::function<
-        glm::mat4(ExampleRenderable*, float)> func);
+    void setMatrixFunction(std::function<glm::mat4(float)> func);
 
     void setModelMatrix(glm::mat4 const& matrix);
     glm::mat4 getModelMatrix() const { return modelMatrix_; }
@@ -40,6 +39,6 @@ private:
     GLuint vertexArray_;
     GLuint vertexBuffer_;
     GLuint vertexIndexBuffer_;
-    std::function<glm::mat4(ExampleRenderable*, float)> matrixFunction_;
+    std::function<glm::mat4(float)> matrixFunction_;
 };
 

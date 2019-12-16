@@ -1,3 +1,15 @@
+//==============================================================================================
+//==============================================================================================
+//
+//         THIS IS IS A COMMON FILE FOR ALL THE GROUPS
+//
+//         BE CAREFUL WHEN MODYFING IT !!!!!!!!!!!!!!!
+//
+//         PLACE COMMENTS AROUND YOUR CHANGES TO MAKE IT CLEAR FOR THE OTHER GROUPS
+//         WHAT PART OF THE CODE IS RESPONSIBLE FOR WHAT AND WHO WROTE IT
+//
+//==============================================================================================
+//==============================================================================================
 #include <ctime>
 #include <iostream>
 #include <cmath>
@@ -131,13 +143,17 @@ void init()
     ball = new ExampleRenderable("models/ball.obj");
     scene.addRenderable(ball);
 
+    //----------------------------------------------
+    // Use W,S,A,D,Q,E or mouse to control camera
     cameraController.setCamera(&camera);
     scene.addInput(&cameraController);
 
+    //----------------------------------------------
+    // Use I,J,K,L to move ball around the terrain
     ballController.setTerrain(&terrain);
     scene.addInput(&ballController);
     
-    ball->setMatrixFunction([](ExampleRenderable *ball, float time) {
+    ball->setMatrixFunction([](float time) {
         // get position from controller
         return glm::translate(ballController.getPos());
     });

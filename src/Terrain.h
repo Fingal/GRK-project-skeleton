@@ -10,6 +10,35 @@
 #pragma once
 #include "Renderable.h"
 
+/*************************************************
+Example
+**************************************************
+Terrain heightfield (4 rows x 5 cols)
+('o' are vertices, lines are edges of triangles)
+
+15m
+o---o---o---o---o
+| / | / | / | / |
+o---o---o---o---o
+| / | / | / | / |  10m
+o---o---o---o---o
+| / | / | / | / |
+o---o---o---o---o
+
+getRows() should return 4
+getCols() should return 5
+getSizeX() should return 15
+getSizeZ() should return 10
+
+getHeight(7.5, 5) should return interpolated
+height at the center of the terrain
+
+getHeight(0, 0) should return the height
+of the left-bottom vertex
+
+getHeight(15, 0) should return the height
+of the right-bottom vertex
+**********************************/
 class Terrain : public Renderable
 {
 public:
@@ -39,34 +68,3 @@ public:
     // height at position x, z
     virtual float getHeight(float x, float z) const = 0;
 };
-
-/*************************************************
-Example
-**************************************************
-Terrain heightfield (4 rows x 5 cols)
-('o' are vertices, lines are edges of triangles)
-
-         15m
-  o---o---o---o---o
-  | / | / | / | / |
-  o---o---o---o---o
-  | / | / | / | / |  10m
-  o---o---o---o---o
-  | / | / | / | / |
-  o---o---o---o---o
-
-getRows() should return 4
-getCols() should return 5
-getSizeX() should return 15
-getSizeZ() should return 10
-
-getHeight(7.5, 5) should return interpolated
-height at the center of the terrain
-
-getHeight(0, 0) should return the height
-of the left-bottom vertex
-
-getHeight(15, 0) should return the height
-of the right-bottom vertex
-
-**********************************/

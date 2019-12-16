@@ -62,8 +62,7 @@ void ExampleRenderable::init(const char * path)
     glBindVertexArray(0);
 }
 
-void ExampleRenderable::setMatrixFunction(
-    std::function<glm::mat4(ExampleRenderable*, float)> func)
+void ExampleRenderable::setMatrixFunction(std::function<glm::mat4(float)> func)
 {
     matrixFunction_ = func;
 }
@@ -76,7 +75,7 @@ void ExampleRenderable::update(float time)
 {
     glm::mat4 externalTransform;
     if (matrixFunction_) {
-        externalTransform = matrixFunction_(this, time);
+        externalTransform = matrixFunction_(time);
     }
     modelMatrix_ = externalTransform * localModelMatrix_;
 }

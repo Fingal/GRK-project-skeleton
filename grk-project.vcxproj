@@ -17,7 +17,6 @@
     <ClCompile Include="src\ExampleTerrain.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PhysxScene.cpp" />
-    <ClCompile Include="src\RenderData.cpp" />
     <ClCompile Include="src\ExampleRenderable.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />

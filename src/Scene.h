@@ -4,6 +4,7 @@
 //         THIS IS A SKELETON CODE CLASS
 //
 //         DO NOT MODIFY IT !!!!!!!!!!!!!!!
+//         EXCEPTION: YOU CAN MODIFY PARTS OF THE CODE REGARDING RenderData
 //
 //==============================================================================================
 //==============================================================================================
@@ -19,7 +20,7 @@
 #include "RenderData.h"
 using namespace std;
 
-/*Class responsible for rendering scene seting camera and observing input*/
+// Class responsible for rendering scene, setting camera and observing input
 class Scene
 {
 public:
